@@ -8,6 +8,7 @@ public class NewYearApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(NewYearApplication.class, args);
+
     }
 
 }
