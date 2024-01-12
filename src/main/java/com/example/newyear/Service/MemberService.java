@@ -1,10 +1,12 @@
 package com.example.newyear.Service;
 
 import com.example.newyear.Dto.Request.LoginRequestDto;
+import com.example.newyear.Dto.Request.SignUpRequestDto;
 import com.example.newyear.Entity.Challenge;
 import com.example.newyear.Entity.Member;
 import com.example.newyear.Repository.ChallengeRepository;
 import com.example.newyear.Repository.MemberRepository;
+import com.example.newyear.Response.CommonResponse;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Response.SingleResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,7 @@ public class MemberService {
     /**
      * 로그인 인증
      */
-    public SingleResponse getMemberByLoginId(LoginRequestDto loginRequestDto){
+    public Member getMemberByLoginId(LoginRequestDto loginRequestDto){
         Member member = memberRepository.findByLoginId(loginRequestDto.getLoginId());
 
         if (member == null){
@@ -43,7 +45,7 @@ public class MemberService {
         }
 
 
-        return responseService.getSingleResponse(member);
+        return member;
     }
 
     /**
@@ -61,5 +63,13 @@ public class MemberService {
     }
 
 
+    public CommonResponse SignUp(SignUpRequestDto signUpRequestDto) {
 
+        Member member = Member.builder()
+                .userName(signUpRequestDto.getUserName())
+                .loginId(signUpRequestDto.getLoginId())
+                .password(signUpRequestDto.getPassword())
+                .gender()
+
+    }
 }

@@ -1,7 +1,10 @@
 package com.example.newyear.Controller;
 
 import com.example.newyear.Dto.Request.LoginRequestDto;
+import com.example.newyear.Dto.Request.SignUpRequestDto;
 import com.example.newyear.Entity.Member;
+import com.example.newyear.Response.CommonResponse;
+import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Response.SingleResponse;
 import com.example.newyear.Service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +25,9 @@ public class MemberController {
     @Autowired
     MemberService memberService;
 
+    @Autowired
+    ResponseService responseService;
+
     @Operation(summary = "로그인 API", description = "로그인 하는 API 입니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공적으로 로그인되었습니다.."),
@@ -29,15 +35,21 @@ public class MemberController {
     })
     @PostMapping("/sign-in")
     public SingleResponse login(@RequestBody LoginRequestDto loginRequestDto, HttpSession session){
-        SingleResponse response = memberService.getMemberByLoginId(loginRequestDto);
+        Member member = memberService.getMemberByLoginId(loginRequestDto);
 
-        session.setAttribute("member", response.getData());
+        session.setAttribute("member", member);
 
         session.getAttribute("member");
 
-        return response;
+        return responseService.getSingleResponse(member);
     }
 
+
+    @PostMapping("/sign-up")
+    public CommonResponse sign_up(@RequestBody SignUpRequestDto signUpRequestDto){
+            CommonResponse response = memberService.SignUp(signUpRequestDto);
+
+    }
 
 
 

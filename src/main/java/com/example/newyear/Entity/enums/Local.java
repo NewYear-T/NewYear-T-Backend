@@ -16,5 +16,14 @@ public enum Local {
 
     Local(String description){this.description = description;}
 
+    public static Local findByDescription(String description) {
+        for (Local local : values()) {
+            if (local.getDescription().equals(description)) {
+                return local;
+            }
+        }
+        return null; // 혹은 적절한 예외 처리
+    }
+
 
 }
