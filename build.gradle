@@ -26,7 +26,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // 스웨거 라이브러리
-
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 
     compileOnly 'org.projectlombok:lombok'
