@@ -7,6 +7,7 @@ import com.example.newyear.Entity.Member;
 import com.example.newyear.Repository.ChallengeRepository;
 import com.example.newyear.Repository.CommentRepository;
 import com.example.newyear.Repository.MemberRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class CommentService {
     /**
      * 댓글 추가
      */
-    public CommentRequestDto addComment(Long challengeId, Long memberId, CommentRequestDto commentRequestDto) {
+    public CommentRequestDto addComment(Long memberId, Long challengeId, CommentRequestDto commentRequestDto) {
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
                 new IllegalArgumentException("해당 유저가 존재하지 않습니다.."));
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(() ->
@@ -68,11 +69,19 @@ public class CommentService {
      * Dto -> Entity
      */
     private Comment reqToEntity(CommentRequestDto commentRequestDto) {
-        Optional<Member> byId = memberRepository.findById(commentRequestDto.getMemberId());
+        Long memberId = commentRequestDto.getMemberId();
+        Member member = memberRepository.findById(memberId).orElseThrow(()
+                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다."));
+
+        Long challengeId = commentRequestDto.getChallengeId();
+        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(()
+                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다."));
+
         Comment comment = Comment.builder()
                 .content(commentRequestDto.getContent())
                 .createdAt(commentRequestDto.getCreatedAt())
-                .member(byId.get())
+                .member(member)
+                .challenge(challenge)
                 .build();
         return comment;
     }
@@ -85,6 +94,7 @@ public class CommentService {
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
                 .memberId(comment.getMember().getId())
+                .challengeId(comment.getChallenge().getId())
                 .build();
         return commentRequestDto;
     }
