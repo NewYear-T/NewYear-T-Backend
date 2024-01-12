@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Rank {
+public class Ranking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rank_id")

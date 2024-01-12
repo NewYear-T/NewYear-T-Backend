@@ -5,6 +5,7 @@ import com.example.newyear.Dto.ChallengeDto;
 import com.example.newyear.Response.ListResponse;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Service.CategoryService;
+import com.example.newyear.Service.ChallengeService;
 import com.example.newyear.Service.CompletedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class CategoryController {
     CategoryService categoryService;
 
     @Autowired
-    CompletedService completedService;
+    ChallengeService challengeService;
 
     @Autowired
     ResponseService responseService;
@@ -38,7 +39,7 @@ public class CategoryController {
 
     @GetMapping("/category/{categoryId}")
     public ListResponse getChallenges(@PathVariable Long categoryId){
-        List<ChallengeDto> challengeDtoList = completedService.getChallengesByCategory(categoryId);
+        List<ChallengeDto> challengeDtoList = challengeService.getChallengesByCategory(categoryId);
 
         return responseService.getListResponse(challengeDtoList);
     }

@@ -61,12 +61,4 @@ public class ChallengeService {
         return challengeDtoList;
     }
 
-    /**
-     * 인증 성공 시  개인 별 1점 추가
-     */
-    public void batchUpdateScore1(Long memberId){
-        rankRepository.updateScore1(memberId);
-        // 이렇게 1점씩 올리면서 카운트를 하고 맥스에 다다르면 단체 1점 추가해주기
-
-        }
 }

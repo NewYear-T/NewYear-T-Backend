@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,7 @@ public class Challenge {
     private List<Completed> completedList; // 완료 여부
 
     @OneToMany(mappedBy = "challenge")
-    private List<Rank> rankList;
+    private List<Ranking> rankingList;
 
     @ManyToMany(mappedBy = "challenges")
     private List<Member> members = new ArrayList<>(); // 멤버 정보
