@@ -1,20 +1,23 @@
 package com.example.newyear.Service;
 
+import com.example.newyear.Dto.ChallengeDto;
 import com.example.newyear.Dto.Request.LoginRequestDto;
 import com.example.newyear.Dto.Request.SignUpRequestDto;
 import com.example.newyear.Entity.Challenge;
 import com.example.newyear.Entity.Member;
+import com.example.newyear.Entity.enums.Gender;
+import com.example.newyear.Entity.enums.Local;
+import com.example.newyear.Entity.enums.Role;
 import com.example.newyear.Repository.ChallengeRepository;
 import com.example.newyear.Repository.MemberRepository;
 import com.example.newyear.Response.CommonResponse;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Response.SingleResponse;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -50,16 +53,26 @@ public class MemberService {
 
     /**
      * 챌린지 신청하기 (일반 유저가 맘에 드는 모임 신청하기)
+     *
+     * @return
      */
 
     @Transactional
-    public SingleResponse joinChallenge(Member member, Long challengeId){
+    public SingleResponse joinChallenge(Member member, Long challengeId) {
+        // 멤버와 챌린지 찾기
         Challenge challenge = challengeRepository.findById(challengeId)
-                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 챌린지 "));
+                .orElseThrow(() -> new EntityNotFoundException("Challenge not found"));
 
+        // 챌린지에 멤버 추가
         challenge.getMembers().add(member);
+
+        // 멤버의 챌린지 리스트에 현재 챌린지 추가
+        member.getChallenges().add(challenge);
+
+        // 변경 사항 저장
         challengeRepository.save(challenge);
-        return responseService.getSingleResponse(challenge);
+        memberRepository.save(member);
+        return responseService.getSingleResponse(ChallengeDto.from(challenge));
     }
 
 
@@ -69,7 +82,15 @@ public class MemberService {
                 .userName(signUpRequestDto.getUserName())
                 .loginId(signUpRequestDto.getLoginId())
                 .password(signUpRequestDto.getPassword())
-                .gender()
+                .gender(Gender.findByDescription(signUpRequestDto.getGender()))
+                .local(Local.findByDescription(signUpRequestDto.getLocal()))
+                .age(signUpRequestDto.getAge())
+                .role(Role.ROLE_MEMBER)
+                .build();
+
+        memberRepository.save(member);
+
+        return new CommonResponse("성공적으로 회원가입 했습니다.");
 
     }
 }

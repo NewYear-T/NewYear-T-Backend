@@ -34,14 +34,13 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "해당 유저가 존재하지 않습니다.")
     })
     @PostMapping("/sign-in")
-    public SingleResponse login(@RequestBody LoginRequestDto loginRequestDto, HttpSession session){
+    public CommonResponse login(@RequestBody LoginRequestDto loginRequestDto, HttpSession session){
         Member member = memberService.getMemberByLoginId(loginRequestDto);
 
         session.setAttribute("member", member);
 
-        session.getAttribute("member");
 
-        return responseService.getSingleResponse(member);
+        return new CommonResponse("성공적으로 로그인 되었습니다.");
     }
 
 
@@ -49,6 +48,7 @@ public class MemberController {
     public CommonResponse sign_up(@RequestBody SignUpRequestDto signUpRequestDto){
             CommonResponse response = memberService.SignUp(signUpRequestDto);
 
+            return response;
     }
 
 
