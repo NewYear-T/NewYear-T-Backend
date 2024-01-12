@@ -46,7 +46,7 @@ public class ChallengeService {
      * 챌린지 만들기 (방만들기)
      */
     @Transactional
-    public CommonResponse makeChallenge(ChallengeRequestDto challengeRequestDto, Member member) {
+    public CommonResponse makeChallenge(ChallengeRequestDto challengeRequestDto, Member member){
         Optional<Category> category = categoryRepository.findById(challengeRequestDto.getCategoryId());
         Challenge challenge = Challenge.builder()
                 .title(challengeRequestDto.getTitle())
@@ -54,6 +54,7 @@ public class ChallengeService {
                 .startTime(challengeRequestDto.getStartTime())
                 .endTime(challengeRequestDto.getEndTime())
                 .endAt(challengeRequestDto.getEndAt())
+                .current_people(challengeRequestDto.getCurrent_people() + 1)
                 .max_people(challengeRequestDto.getMax_people())
                 .category(category.get())
                 .createdBy(member)

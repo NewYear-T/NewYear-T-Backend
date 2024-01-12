@@ -3,6 +3,7 @@ package com.example.newyear.Controller;
 import com.example.newyear.Dto.ChallengeDto;
 import com.example.newyear.Dto.Request.LoginRequestDto;
 import com.example.newyear.Dto.Request.SignUpRequestDto;
+import com.example.newyear.Entity.Challenge;
 import com.example.newyear.Entity.Member;
 import com.example.newyear.Response.CommonResponse;
 import com.example.newyear.Response.ResponseService;
@@ -71,7 +72,6 @@ public class MemberController {
     public SingleResponse challengeApply(@PathVariable Long challengeId, HttpSession httpSession) {
         Member member = (Member) httpSession.getAttribute("member");
         ChallengeDto challengeDto = memberService.joinChallenge(member, challengeId);
-
 
 ;        return responseService.getSingleResponse(challengeDto);
     }
