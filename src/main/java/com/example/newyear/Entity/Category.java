@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Setter
@@ -25,6 +26,9 @@ public class Category {
     private Member member; // 유저 정보
 
     private String categoryName; // 카테고리 이름
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private List<Challenge> challengeList;
 
     @CreationTimestamp
     private LocalDateTime createdAt; // 생성 시간

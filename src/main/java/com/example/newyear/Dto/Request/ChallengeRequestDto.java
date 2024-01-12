@@ -1,5 +1,6 @@
 package com.example.newyear.Dto.Request;
 
+import com.example.newyear.Entity.Challenge;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,4 +25,5 @@ public class ChallengeRequestDto {
     private int max_people; // 정원
 
     private LocalDateTime endAt;
+
 }

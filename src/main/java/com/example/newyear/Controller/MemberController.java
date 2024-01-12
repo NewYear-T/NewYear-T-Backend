@@ -31,13 +31,16 @@ public class MemberController {
     public SingleResponse login(@RequestBody LoginRequestDto loginRequestDto, HttpSession session){
         SingleResponse response = memberService.getMemberByLoginId(loginRequestDto);
 
+        session.setAttribute("member", response.getData());
+
+        session.getAttribute("member");
 
         return response;
     }
 
-    /**
-     * 세션에 유저가 유효한 지 아닌지
-     */
+
+
+
 
 
 

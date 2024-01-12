@@ -53,7 +53,7 @@ public class MemberService {
     @Transactional
     public SingleResponse joinChallenge(Member member, Long challengeId){
         Challenge challenge = challengeRepository.findById(challengeId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid challenge Id: " + challengeId));
+                .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 챌린지 "));
 
         challenge.getMembers().add(member);
         challengeRepository.save(challenge);
