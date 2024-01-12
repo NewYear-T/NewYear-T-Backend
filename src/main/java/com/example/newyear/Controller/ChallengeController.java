@@ -1,10 +1,13 @@
 package com.example.newyear.Controller;
 
+import com.example.newyear.Dto.Request.ChallengeRequestDto;
 import com.example.newyear.Entity.Member;
+import com.example.newyear.Response.CommonResponse;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Service.ChallengeService;
 import com.example.newyear.Service.CompletedService;
 import com.example.newyear.Service.RankingService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
