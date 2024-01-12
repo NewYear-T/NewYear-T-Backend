@@ -44,4 +44,7 @@ public class Challenge {
 
     @ManyToMany(mappedBy = "challenges")
     private List<Member> members = new ArrayList<>(); // 멤버 정보
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
 }

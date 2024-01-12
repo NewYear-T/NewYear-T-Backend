@@ -18,7 +18,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30)
                 .useDefaultResponseMessages(true)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.gdsc.waffle"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.newyear"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
