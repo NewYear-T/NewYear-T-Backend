@@ -30,6 +30,9 @@ public class ChallengeController {
     @Autowired
     ChallengeService challengeService;
 
+    @Autowired
+    RankingService rankingService;
+
 
 
     @PostMapping("/api/challenge")
@@ -53,8 +56,6 @@ public class ChallengeController {
 
         return response;
     }
-
-    RankingService rankingService;
 
     @GetMapping("/{challengeId}/ranking")
     public ResponseEntity<List<String>> sortMember(@PathVariable Long challengeId) {
