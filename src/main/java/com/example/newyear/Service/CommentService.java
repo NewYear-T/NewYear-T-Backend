@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,6 +36,7 @@ public class CommentService {
                 new IllegalArgumentException("해당 챌린지가 존재하지 않습니다.."));
 
         Comment comment = Comment.builder()
+                .id(commentRequestDto.getId())
                 .content(commentRequestDto.getContent())
                 .member(member)
                 .challenge(challenge)
@@ -44,6 +47,18 @@ public class CommentService {
         return reqToDto(comment);
     }
 
+    /**
+     * 댓글 전체 조회
+     */
+    public List<CommentRequestDto> findAll(Long challengeId) {
+        List<Comment> commentList = commentRepository.findByChallengeId(challengeId);
+        List<CommentRequestDto> commentRequestDtoList = new ArrayList<>();
+
+        for (Comment comment : commentList) {
+            commentRequestDtoList.add(reqToDto(comment));
+        }
+        return commentRequestDtoList;
+    }
 
     /**
      * 댓글 수정
@@ -71,6 +86,7 @@ public class CommentService {
      */
     private CommentRequestDto reqToDto(Comment comment) {
         CommentRequestDto commentRequestDto = CommentRequestDto.builder()
+                .id(comment.getId())
                 .content(comment.getContent())
                 .memberId(comment.getMember().getId())
                 .challengeId(comment.getChallenge().getId())
