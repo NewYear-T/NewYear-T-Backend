@@ -8,6 +8,7 @@ import com.example.newyear.Entity.ChallengeMembers;
 import com.example.newyear.Entity.Member;
 import com.example.newyear.Repository.ChallengeMemberRepository;
 import com.example.newyear.Response.CommonResponse;
+import com.example.newyear.Response.ListResponse;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Response.SingleResponse;
 import com.example.newyear.Service.MemberService;
@@ -90,5 +91,15 @@ public class MemberController {
             ChallengeDto challengeDto = memberService.joinChallenge(member, challengeId);
             return responseService.getSingleResponse(challengeDto);
         }
+    }
+
+
+    @GetMapping("/my-challenge")
+    public ListResponse myChallenge(HttpSession session){
+        Member member = (Member) session.getAttribute("member");
+
+        List<ChallengeDto> challengeDtoList = memberService.myChallenge(member);
+
+        return responseService.getListResponse(challengeDtoList);
     }
 }

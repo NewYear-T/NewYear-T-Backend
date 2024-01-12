@@ -23,6 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -47,7 +50,7 @@ public class MemberService {
      * 로그인 인증
      */
     public Member getMemberByLoginId(LoginRequestDto loginRequestDto) {
-        Member member = memberRepository.findByLoginId(loginRequestDto.getLoginId());
+            Member member = memberRepository.findByLoginId(loginRequestDto.getLoginId());
 
         if (member == null) {
             throw new RuntimeException("멤버가 없음");
@@ -120,5 +123,12 @@ public class MemberService {
             throw new IllegalStateException("이미 가입된 이메일입니다.");
         }
 
+    }
+
+    public List<ChallengeDto> myChallenge(Member member){
+        List<ChallengeDto> challenges = challengeMemberRepository.findMyChallenge(member.getId()).stream().map(ChallengeDto::from)
+                .collect(Collectors.toList());
+
+        return challenges;
     }
 }
