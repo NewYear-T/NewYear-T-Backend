@@ -8,7 +8,6 @@ import com.example.newyear.Repository.MemberRepository;
 import com.example.newyear.Response.CommonResponse;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Response.SingleResponse;
-import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,35 +1,19 @@
 package com.example.newyear.config;
 
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
+
 
 @Configuration
-@EnableWebMvc
 public class SwaggerConfig {
     @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.OAS_30)
-                .useDefaultResponseMessages(true)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.newyear"))
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(apiInfo());
-    }
+    public GroupedOpenApi chatOpenApi() {
+        String[] paths = {"/v1/**"};
 
-
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("TeamT Swagger")
-                .description("Promise Mate API Document")
-                .version("1.0")
+        return GroupedOpenApi.builder()
+                .group("COUPLE API v1")
+                .pathsToMatch(paths)
                 .build();
     }
 
