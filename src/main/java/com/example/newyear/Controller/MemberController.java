@@ -45,6 +45,11 @@ public class MemberController {
     }
 
 
+    @Operation(summary = "회원가입 API", description = "회원가입 하는 API 입니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "회원가입에 성공하였습니다."),
+            @ApiResponse(responseCode = "404", description = "회원가입에 실패하였습니다..")
+    })
     @PostMapping("/sign-up")
     public CommonResponse sign_up(@RequestBody SignUpRequestDto signUpRequestDto){
             CommonResponse response = memberService.SignUp(signUpRequestDto);
