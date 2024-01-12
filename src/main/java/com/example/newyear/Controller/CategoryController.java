@@ -54,8 +54,8 @@ public class CategoryController {
         return responseService.getListResponse(challengeDtoList);
     }
 
-    @GetMapping("/category/{categoryId}")
-    public ListResponse getChallenges(@PathVariable("categoryId") Long categoryId,
+    @GetMapping("/category/param/{categoryId}")
+    public ListResponse getChallenge(@PathVariable("categoryId") Long categoryId,
             @RequestParam(required = false) String gender, @RequestParam(required = false) String local ){
         List<ChallengeDto> challengeDtoList = challengeService.getChallengesBy(categoryId, gender,local);
 

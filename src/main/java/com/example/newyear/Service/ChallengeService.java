@@ -41,11 +41,12 @@ public class ChallengeService {
 
     @Autowired
     CategoryRepository categoryRepository;
+
     /**
      * 챌린지 만들기 (방만들기)
      */
     @Transactional
-    public CommonResponse makeChallenge(ChallengeRequestDto challengeRequestDto, Member member){
+    public CommonResponse makeChallenge(ChallengeRequestDto challengeRequestDto, Member member) {
         Optional<Category> category = categoryRepository.findById(challengeRequestDto.getCategoryId());
         Challenge challenge = Challenge.builder()
                 .title(challengeRequestDto.getTitle())
@@ -71,12 +72,32 @@ public class ChallengeService {
         return challengeDtoList;
     }
 
-    public List<ChallengeDto> getChallengesBy(Long categoryId, String gender, String local) {
-        Gender gender1 = Gender.findByDescription(gender);
-        Local local1 = Local.findByDescription(local);
+    public List<ChallengeDto> getChallengesBy(Long categoryId, String gender1, String local1) {
+        Gender gender = Gender.findByDescription(gender1);
+        Local local = Local.findByDescription(local1);
 
-        List<ChallengeDto> challengeDtoList = challengeRepository.findChallengeList(categoryId, gender,local);
+        List<Challenge> challenges;
+
+        if (gender == null && local == null) {
+            challenges = challengeRepository.findChallengesByCategory(categoryId);
+        } else if (gender == null) {
+            challenges = challengeRepository.findChallengesByCategoryAndLocal(categoryId, local);
+        } else if (local == null) {
+            challenges = challengeRepository.findChallengesByCategoryAndGender(categoryId, gender);
+        } else {
+            challenges = challengeRepository.findChallengesByCategoryAndGenderAndLocal(categoryId, gender, local);
+        }
+
+
+        List<ChallengeDto> challengeDtoList = challenges.stream().map(ChallengeDto::from).collect(Collectors.toList());
 
         return challengeDtoList;
+    }
+
+    public ChallengeDto findById(Long challengeId) {
+        ChallengeDto challengeDto = ChallengeDto.from(challengeRepository.findById(challengeId)
+                .orElseThrow(() -> new EntityNotFoundException("Challenge not found")));
+
+        return challengeDto;
     }
 }
