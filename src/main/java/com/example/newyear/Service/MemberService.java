@@ -101,19 +101,24 @@ public class MemberService {
 
     public CommonResponse SignUp(SignUpRequestDto signUpRequestDto) {
 
-        Member member = Member.builder()
-                .userName(signUpRequestDto.getUserName())
-                .loginId(signUpRequestDto.getLoginId())
-                .password(signUpRequestDto.getPassword())
-                .gender(Gender.findByDescription(signUpRequestDto.getGender()))
-                .local(Local.findByDescription(signUpRequestDto.getLocal()))
-                .age(signUpRequestDto.getAge())
-                .role(Role.ROLE_MEMBER)
-                .build();
+        Member existed = memberRepository.findByUserName(signUpRequestDto.getUserName());
+        if (existed == null) {
+            Member member = Member.builder()
+                    .userName(signUpRequestDto.getUserName())
+                    .loginId(signUpRequestDto.getLoginId())
+                    .password(signUpRequestDto.getPassword())
+                    .gender(Gender.findByDescription(signUpRequestDto.getGender()))
+                    .local(Local.findByDescription(signUpRequestDto.getLocal()))
+                    .age(signUpRequestDto.getAge())
+                    .role(Role.ROLE_MEMBER)
+                    .build();
 
-        memberRepository.save(member);
+            memberRepository.save(member);
 
-        return new CommonResponse("성공적으로 회원가입 했습니다.");
+            return new CommonResponse("성공적으로 회원가입 했습니다.");
+        } else {
+            throw new IllegalStateException("이미 가입된 이메일입니다.");
+        }
 
     }
 }
