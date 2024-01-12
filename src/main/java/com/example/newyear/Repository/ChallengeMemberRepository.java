@@ -1,5 +1,6 @@
 package com.example.newyear.Repository;
 
+import com.example.newyear.Entity.Challenge;
 import com.example.newyear.Entity.ChallengeMembers;
 import com.example.newyear.Entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,6 @@ public interface ChallengeMemberRepository  extends JpaRepository<ChallengeMembe
     List<Member> findAllByChallengeId(Long challengeId);
 
 
+    @Query("select cm.challenge from ChallengeMembers  cm where cm.member.id = ?1")
+    List<Challenge> findMyChallenge(Long memberId);
 }

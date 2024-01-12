@@ -6,6 +6,7 @@ import com.example.newyear.Dto.Request.SignUpRequestDto;
 import com.example.newyear.Entity.Challenge;
 import com.example.newyear.Entity.Member;
 import com.example.newyear.Response.CommonResponse;
+import com.example.newyear.Response.ListResponse;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Response.SingleResponse;
 import com.example.newyear.Service.MemberService;
@@ -17,6 +18,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -74,5 +77,15 @@ public class MemberController {
         ChallengeDto challengeDto = memberService.joinChallenge(member, challengeId);
 
 ;        return responseService.getSingleResponse(challengeDto);
+    }
+
+
+    @GetMapping("/my-challenge")
+    public ListResponse myChallenge(HttpSession session){
+        Member member = (Member) session.getAttribute("member");
+
+        List<ChallengeDto> challengeDtoList = memberService.myChallenge(member);
+
+        return responseService.getListResponse(challengeDtoList);
     }
 }
