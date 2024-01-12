@@ -1,13 +1,16 @@
 package com.example.newyear.Service;
 
 import com.example.newyear.Dto.Request.LoginRequestDto;
+import com.example.newyear.Entity.Challenge;
 import com.example.newyear.Entity.Member;
+import com.example.newyear.Repository.ChallengeRepository;
 import com.example.newyear.Repository.MemberRepository;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Response.SingleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,6 +23,9 @@ public class MemberService {
 
     @Autowired
     ResponseService responseService;
+
+    @Autowired
+    ChallengeRepository challengeRepository;
 
 
     /**
@@ -38,6 +44,20 @@ public class MemberService {
 
 
         return responseService.getSingleResponse(member);
+    }
+
+    /**
+     * 챌린지 신청하기 (일반 유저가 맘에 드는 모임 신청하기)
+     */
+
+    @Transactional
+    public SingleResponse joinChallenge(Member member, Long challengeId){
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid challenge Id: " + challengeId));
+
+        challenge.getMembers().add(member);
+        challengeRepository.save(challenge);
+        return responseService.getSingleResponse(challenge);
     }
 
 

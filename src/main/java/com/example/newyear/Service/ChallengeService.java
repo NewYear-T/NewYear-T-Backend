@@ -2,7 +2,9 @@ package com.example.newyear.Service;
 
 import com.example.newyear.Dto.Request.ChallengeRequestDto;
 import com.example.newyear.Entity.Challenge;
+import com.example.newyear.Entity.Member;
 import com.example.newyear.Repository.ChallengeRepository;
+import com.example.newyear.Repository.MemberRepository;
 import com.example.newyear.Response.CommonResponse;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Response.SingleResponse;
@@ -18,6 +20,9 @@ public class ChallengeService {
 
     @Autowired
     ChallengeRepository challengeRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     @Autowired
     ResponseService responseService;
@@ -40,4 +45,7 @@ public class ChallengeService {
 
         return new CommonResponse("성공적으로 업로드 되었습니다.");
     }
+
+
+
 }
