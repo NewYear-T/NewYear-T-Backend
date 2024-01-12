@@ -40,12 +40,4 @@ public class ChallengeService {
 
         return new CommonResponse("성공적으로 업로드 되었습니다.");
     }
-
-    /**
-     * 챌린지 신청하기 (일반 유저가 맘에 드는 모임 신청하기)
-     */
-
-    @Transactional
-    public SingleResponse 
-
 }
