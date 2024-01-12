@@ -4,6 +4,9 @@ import com.example.newyear.Dto.ChallengeDto;
 import com.example.newyear.Dto.Request.ChallengeRequestDto;
 import com.example.newyear.Entity.Category;
 import com.example.newyear.Entity.Challenge;
+import com.example.newyear.Entity.Member;
+import com.example.newyear.Entity.enums.Gender;
+import com.example.newyear.Entity.enums.Local;
 import com.example.newyear.Repository.CategoryRepository;
 import com.example.newyear.Repository.ChallengeRepository;
 import com.example.newyear.Repository.MemberRepository;
@@ -41,7 +44,7 @@ public class ChallengeService {
      * 챌린지 만들기 (방만들기)
      */
     @Transactional
-    public CommonResponse makeChallenge(ChallengeRequestDto challengeRequestDto){
+    public CommonResponse makeChallenge(ChallengeRequestDto challengeRequestDto, Member member){
         Optional<Category> category = categoryRepository.findById(challengeRequestDto.getCategoryId());
         Challenge challenge = Challenge.builder()
                 .title(challengeRequestDto.getTitle())
@@ -51,6 +54,7 @@ public class ChallengeService {
                 .endAt(challengeRequestDto.getEndAt())
                 .max_people(challengeRequestDto.getMax_people())
                 .category(category.get())
+                .createdBy(member)
                 .build();
 
         challengeRepository.save(challenge);
@@ -62,6 +66,15 @@ public class ChallengeService {
     public List<ChallengeDto> getChallengesByCategory(Long categoryId) {
         List<ChallengeDto> challengeDtoList = challengeRepository.findAllByCategoryName(categoryId)
                 .stream().map(ChallengeDto::from).collect(Collectors.toList());
+
+        return challengeDtoList;
+    }
+
+    public List<ChallengeDto> getChallengesBy(Long categoryId, String gender, String local) {
+        Gender gender1 = Gender.findByDescription(gender);
+        Local local1 = Local.findByDescription(local);
+
+        List<ChallengeDto> challengeDtoList = challengeRepository.findChallengeList(categoryId, gender,local);
 
         return challengeDtoList;
     }

@@ -53,4 +53,7 @@ public class Challenge {
     
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Member createdBy;
 }

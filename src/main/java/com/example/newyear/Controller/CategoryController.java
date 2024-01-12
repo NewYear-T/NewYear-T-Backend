@@ -12,10 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -53,6 +50,14 @@ public class CategoryController {
     @GetMapping("/category/{categoryId}")
     public ListResponse getChallenges(@PathVariable Long categoryId){
         List<ChallengeDto> challengeDtoList = challengeService.getChallengesByCategory(categoryId);
+
+        return responseService.getListResponse(challengeDtoList);
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ListResponse getChallenges(@PathVariable("categoryId") Long categoryId,
+            @RequestParam(required = false) String gender, @RequestParam(required = false) String local ){
+        List<ChallengeDto> challengeDtoList = challengeService.getChallengesBy(categoryId, gender,local);
 
         return responseService.getListResponse(challengeDtoList);
     }
