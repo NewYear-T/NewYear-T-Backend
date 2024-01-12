@@ -49,7 +49,7 @@ public class ChallengeController {
 
         Member member = (Member) session.getAttribute("member");
 
-        challengeService.makeChallenge(challengeRequestDto);
+        challengeService.makeChallenge(challengeRequestDto, member);
 
         return new CommonResponse("챌린지 생성 성공");
     }

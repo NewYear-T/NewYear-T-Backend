@@ -77,6 +77,12 @@ public class MemberService {
                 .challenge(challenge)
                 .member(member).build();
 
+        if (challenge.getCurrent_people() < challenge.getMax_people()) {
+            challenge.setCurrent_people(challenge.getCurrent_people() + 1);
+        } else {
+            throw new IllegalStateException("Challenge is full. Cannot join.");
+        }
+
         // 챌린지에 멤버 추가
         challengeMemberRepository.save(challengeMembers);
 

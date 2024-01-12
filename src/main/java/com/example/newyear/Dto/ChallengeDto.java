@@ -26,6 +26,8 @@ public class ChallengeDto {
 
     private LocalDateTime endTime; // 챌린지 종료 시간
 
+    private int current_people; // 현재 인원
+
     private int max_people; // 정원
 
     private LocalDateTime endAt;
@@ -39,6 +41,7 @@ public class ChallengeDto {
                 challenge.getDescription(),
                 challenge.getStartTime(),
                 challenge.getEndTime(),
+                challenge.getCurrent_people(),
                 challenge.getMax_people(),
                 challenge.getEndAt(),
                 challenge.getCategory().getCategoryName()
