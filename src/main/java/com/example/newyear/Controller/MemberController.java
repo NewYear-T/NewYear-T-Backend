@@ -1,5 +1,6 @@
 package com.example.newyear.Controller;
 
+import com.example.newyear.Dto.ChallengeDto;
 import com.example.newyear.Dto.Request.LoginRequestDto;
 import com.example.newyear.Dto.Request.SignUpRequestDto;
 import com.example.newyear.Entity.Member;
@@ -64,8 +65,9 @@ public class MemberController {
     @GetMapping("/{challengeId}/apply")
     public SingleResponse challengeApply(@PathVariable Long challengeId, HttpSession httpSession) {
         Member member = (Member) httpSession.getAttribute("member");
-        SingleResponse response = memberService.joinChallenge(member, challengeId);
+        ChallengeDto challengeDto = memberService.joinChallenge(member, challengeId);
 
-;        return response;
+
+;        return responseService.getSingleResponse(challengeDto);
     }
 }

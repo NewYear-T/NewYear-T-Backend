@@ -2,7 +2,9 @@ package com.example.newyear.Service;
 
 import com.example.newyear.Dto.ChallengeDto;
 import com.example.newyear.Dto.Request.ChallengeRequestDto;
+import com.example.newyear.Entity.Category;
 import com.example.newyear.Entity.Challenge;
+import com.example.newyear.Repository.CategoryRepository;
 import com.example.newyear.Repository.ChallengeRepository;
 import com.example.newyear.Repository.MemberRepository;
 import com.example.newyear.Repository.RankRepository;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,11 +35,14 @@ public class ChallengeService {
     @Autowired
     RankRepository rankRepository;
 
+    @Autowired
+    CategoryRepository categoryRepository;
     /**
      * 챌린지 만들기 (방만들기)
      */
     @Transactional
     public CommonResponse makeChallenge(ChallengeRequestDto challengeRequestDto){
+        Optional<Category> category = categoryRepository.findById(challengeRequestDto.getCategoryId());
         Challenge challenge = Challenge.builder()
                 .title(challengeRequestDto.getTitle())
                 .description(challengeRequestDto.getDescription())
@@ -44,6 +50,7 @@ public class ChallengeService {
                 .endTime(challengeRequestDto.getEndTime())
                 .endAt(challengeRequestDto.getEndAt())
                 .max_people(challengeRequestDto.getMax_people())
+                .category(category.get())
                 .build();
 
         challengeRepository.save(challenge);

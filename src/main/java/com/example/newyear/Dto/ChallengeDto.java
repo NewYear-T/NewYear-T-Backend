@@ -30,6 +30,8 @@ public class ChallengeDto {
 
     private LocalDateTime endAt;
 
+    private String categoryName;
+
     public static ChallengeDto from(Challenge challenge){
         return new ChallengeDto(
                 challenge.getId(),
@@ -38,7 +40,8 @@ public class ChallengeDto {
                 challenge.getStartTime(),
                 challenge.getEndTime(),
                 challenge.getMax_people(),
-                challenge.getEndAt()
+                challenge.getEndAt(),
+                challenge.getCategory().getCategoryName()
         );
     }
 

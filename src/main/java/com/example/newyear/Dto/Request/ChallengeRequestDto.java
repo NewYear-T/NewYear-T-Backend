@@ -26,4 +26,6 @@ public class ChallengeRequestDto {
 
     private LocalDateTime endAt;
 
+    private Long categoryId;
+
 }

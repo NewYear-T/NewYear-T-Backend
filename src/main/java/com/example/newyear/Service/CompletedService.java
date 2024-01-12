@@ -4,6 +4,7 @@ import com.example.newyear.Entity.Challenge;
 import com.example.newyear.Entity.Completed;
 import com.example.newyear.Entity.Member;
 import com.example.newyear.Repository.*;
+import com.example.newyear.Response.CommonResponse;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.List;
 public class CompletedService {
 
     @Autowired
-    private CompletedRepositoey completedRepository;
+    private CompletedRepository completedRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -30,9 +31,8 @@ public class CompletedService {
     private ChallengeMemberRepository challengeMemberRepository;
 
     @Transactional
-    public void completeChallenge(Long memberId, Long challengeId) {
+    public CommonResponse completeChallenge(Member member, Long challengeId) {
         // 사용자의 인증 처리
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("Member not found"));
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(() -> new EntityNotFoundException("Challenge not found"));
 
         Completed completed = new Completed();
@@ -43,19 +43,25 @@ public class CompletedService {
         completedRepository.save(completed);
 
         // 사용자 Rank 점수 증가
-        rankRepository.increaseScoreForMember(memberId);
+        rankRepository.increaseScoreForMember(member.getId());
 
         // 모든 인원이 인증 완료했는지 확인
         if (isChallengeCompletedByAllMembers(challenge)) {
             // 모든 사용자의 Rank 점수 추가 증가
             rankRepository.increaseScoreForMembers(challengeId);
+            return new CommonResponse("전체 사용자 1점 추가");
+
         }
+
+        return new CommonResponse(member.getUserName() + "1점 추가");
     }
 
-    private boolean isChallengeCompletedByAllMembers(Challenge challenge) {
-        List<Member> members = challengeMemberRepository.findAllByChallengeId(challenge.getId());
-        for (Member member : members) {
-            if (!completedRepository.existsByMemberAndChallengeAndCompleted(member, challenge, true)) {
+
+
+    private boolean isChallengeCompletedByAllMembers(Challenge challenge){
+        List<Completed> completedList = completedRepository.findAllByChallengeId(challenge);
+        for(Completed  completed : completedList){
+            if(!completed.getCompleted()){
                 return false;
             }
         }
