@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ChallengeMemberRepository  extends JpaRepository<ChallengeMembers,Long> {
@@ -14,4 +15,5 @@ public interface ChallengeMemberRepository  extends JpaRepository<ChallengeMembe
     List<Member> findAllByChallengeId(Long challengeId);
 
 
+    List<ChallengeMembers> findByMemberId(Long id);
 }

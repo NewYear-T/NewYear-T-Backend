@@ -4,7 +4,9 @@ import com.example.newyear.Dto.ChallengeDto;
 import com.example.newyear.Dto.Request.LoginRequestDto;
 import com.example.newyear.Dto.Request.SignUpRequestDto;
 import com.example.newyear.Entity.Challenge;
+import com.example.newyear.Entity.ChallengeMembers;
 import com.example.newyear.Entity.Member;
+import com.example.newyear.Repository.ChallengeMemberRepository;
 import com.example.newyear.Response.CommonResponse;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Response.SingleResponse;
@@ -13,10 +15,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +35,8 @@ public class MemberController {
 
     @Autowired
     ResponseService responseService;
+    @Autowired
+    private ChallengeMemberRepository challengeMemberRepository;
 
     @Operation(summary = "로그인 API", description = "로그인 하는 API 입니다.")
     @ApiResponses({
@@ -71,8 +79,16 @@ public class MemberController {
     @GetMapping("/{challengeId}/apply")
     public SingleResponse challengeApply(@PathVariable Long challengeId, HttpSession httpSession) {
         Member member = (Member) httpSession.getAttribute("member");
-        ChallengeDto challengeDto = memberService.joinChallenge(member, challengeId);
+        List<ChallengeMembers> challengeMembers = challengeMemberRepository.findByMemberId(member.getId());
 
-;        return responseService.getSingleResponse(challengeDto);
+        boolean hasChallengeId = challengeMembers.stream()
+                .anyMatch(challengeMember -> challengeMember.getChallenge().getId().equals(challengeId));
+
+        if (hasChallengeId) {
+            throw new IllegalStateException("이미 챌린지에 가입한 회원입니다.");
+        } else {
+            ChallengeDto challengeDto = memberService.joinChallenge(member, challengeId);
+            return responseService.getSingleResponse(challengeDto);
+        }
     }
 }
