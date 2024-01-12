@@ -41,7 +41,7 @@ public class CommentController {
             @ApiResponse(responseCode = "200", description = "성공적으로 수정되었습니다..."),
             @ApiResponse(responseCode = "404", description = "댓글 수정에 실패하였습니다..")
     })
-    @GetMapping("/{commentId}/update")
+    @PatchMapping("/{commentId}/update")
     public ResponseEntity<CommentRequestDto> updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
         CommentRequestDto responseDto = commentService.updateComment(commentId, commentRequestDto);
 
@@ -53,7 +53,7 @@ public class CommentController {
             @ApiResponse(responseCode = "200", description = "성공적으로 삭제되었습니다..."),
             @ApiResponse(responseCode = "404", description = "댓글 삭제에 실패하였습니다..")
     })
-    @GetMapping("/{commentId}/delete")
+    @DeleteMapping("/{commentId}/delete")
     public ResponseEntity<CommentRequestDto> deleteComment(@PathVariable Long commentId) {
         CommentRequestDto responseDto = commentService.deleteComment(commentId);
 
