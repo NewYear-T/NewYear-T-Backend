@@ -3,10 +3,7 @@ package com.example.newyear.Service;
 import com.example.newyear.Entity.Challenge;
 import com.example.newyear.Entity.Completed;
 import com.example.newyear.Entity.Member;
-import com.example.newyear.Repository.ChallengeRepository;
-import com.example.newyear.Repository.CompletedRepositoey;
-import com.example.newyear.Repository.MemberRepository;
-import com.example.newyear.Repository.RankRepository;
+import com.example.newyear.Repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +25,9 @@ public class CompletedService {
 
     @Autowired
     private ChallengeRepository challengeRepository;
+
+    @Autowired
+    private ChallengeMemberRepository challengeMemberRepository;
 
     @Transactional
     public void completeChallenge(Long memberId, Long challengeId) {
@@ -53,7 +53,7 @@ public class CompletedService {
     }
 
     private boolean isChallengeCompletedByAllMembers(Challenge challenge) {
-        List<Member> members = challenge.getMembers();
+        List<Member> members = challengeMemberRepository.findAllByChallengeId(challenge.getId());
         for (Member member : members) {
             if (!completedRepository.existsByMemberAndChallengeAndCompleted(member, challenge, true)) {
                 return false;

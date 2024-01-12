@@ -4,10 +4,12 @@ import com.example.newyear.Dto.ChallengeDto;
 import com.example.newyear.Dto.Request.LoginRequestDto;
 import com.example.newyear.Dto.Request.SignUpRequestDto;
 import com.example.newyear.Entity.Challenge;
+import com.example.newyear.Entity.ChallengeMembers;
 import com.example.newyear.Entity.Member;
 import com.example.newyear.Entity.enums.Gender;
 import com.example.newyear.Entity.enums.Local;
 import com.example.newyear.Entity.enums.Role;
+import com.example.newyear.Repository.ChallengeMemberRepository;
 import com.example.newyear.Repository.ChallengeRepository;
 import com.example.newyear.Repository.MemberRepository;
 import com.example.newyear.Response.CommonResponse;
@@ -31,6 +33,9 @@ public class MemberService {
 
     @Autowired
     ChallengeRepository challengeRepository;
+
+    @Autowired
+    ChallengeMemberRepository challengeMemberRepository;
 
 
     /**
@@ -63,11 +68,12 @@ public class MemberService {
         Challenge challenge = challengeRepository.findById(challengeId)
                 .orElseThrow(() -> new EntityNotFoundException("Challenge not found"));
 
-        // 챌린지에 멤버 추가
-        challenge.getMembers().add(member);
+        ChallengeMembers challengeMembers = ChallengeMembers.builder()
+                .challenge(challenge)
+                        .member(member).build();
 
-        // 멤버의 챌린지 리스트에 현재 챌린지 추가
-        member.getChallenges().add(challenge);
+        // 챌린지에 멤버 추가
+        challengeMemberRepository.save(challengeMembers);
 
         // 변경 사항 저장
         challengeRepository.save(challenge);

@@ -49,4 +49,7 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Comment> comments; // 댓글 리스트
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<ChallengeMembers> challengeMembers;
+
 }
