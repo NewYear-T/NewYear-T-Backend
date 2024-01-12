@@ -33,4 +33,9 @@ public class MemberController {
 
         return response;
     }
+
+    /**
+     * 세션에 유저가 유효한 지 아닌지
+     */
+
 }

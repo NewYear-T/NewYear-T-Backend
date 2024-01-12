@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -42,5 +43,5 @@ public class Challenge {
     private List<Completed> completedList; // 완료 여부
 
     @ManyToMany(mappedBy = "challenges")
-    private List<Member> members; // 멤버 정보
+    private List<Member> members = new ArrayList<>(); // 멤버 정보
 }
