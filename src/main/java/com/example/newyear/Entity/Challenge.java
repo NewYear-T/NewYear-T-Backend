@@ -42,6 +42,9 @@ public class Challenge {
     @OneToMany(mappedBy = "challenge")
     private List<Completed> completedList; // 완료 여부
 
+    @OneToMany(mappedBy = "challenge")
+    private List<Rank> rankList;
+
     @ManyToMany(mappedBy = "challenges")
     private List<Member> members = new ArrayList<>(); // 멤버 정보
 

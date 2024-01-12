@@ -1,6 +1,7 @@
 package com.example.newyear.Controller;
 
 import com.example.newyear.Dto.Request.LoginRequestDto;
+import com.example.newyear.Entity.Member;
 import com.example.newyear.Response.SingleResponse;
 import com.example.newyear.Service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,12 +31,15 @@ public class MemberController {
     public SingleResponse login(@RequestBody LoginRequestDto loginRequestDto, HttpSession session){
         SingleResponse response = memberService.getMemberByLoginId(loginRequestDto);
 
+        session.setAttribute("member", response.getData());
+
+        session.getAttribute("member");
 
         return response;
     }
 
-    /**
-     * 세션에 유저가 유효한 지 아닌지
-     */
+
+
+
 
 }

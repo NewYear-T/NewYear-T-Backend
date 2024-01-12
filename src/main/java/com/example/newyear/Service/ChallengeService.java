@@ -1,10 +1,12 @@
 package com.example.newyear.Service;
 
+import com.example.newyear.Dto.ChallengeDto;
 import com.example.newyear.Dto.Request.ChallengeRequestDto;
 import com.example.newyear.Entity.Challenge;
 import com.example.newyear.Entity.Member;
 import com.example.newyear.Repository.ChallengeRepository;
 import com.example.newyear.Repository.MemberRepository;
+import com.example.newyear.Repository.RankRepository;
 import com.example.newyear.Response.CommonResponse;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Response.SingleResponse;
@@ -12,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +30,9 @@ public class ChallengeService {
 
     @Autowired
     ResponseService responseService;
+
+    @Autowired
+    RankRepository rankRepository;
 
     /**
      * 챌린지 만들기 (방만들기)
@@ -46,5 +54,19 @@ public class ChallengeService {
     }
 
 
+    public List<ChallengeDto> getChallengesByCategory(Long categoryId) {
+        List<ChallengeDto> challengeDtoList = challengeRepository.findAllByCategoryName(categoryId)
+                .stream().map(ChallengeDto::from).collect(Collectors.toList());
 
+        return challengeDtoList;
+    }
+
+    /**
+     * 인증 성공 시  개인 별 1점 추가
+     */
+    public void batchUpdateScore1(Long memberId){
+        rankRepository.updateScore1(memberId);
+        // 이렇게 1점씩 올리면서 카운트를 하고 맥스에 다다르면 단체 1점 추가해주기
+
+        }
 }
