@@ -28,10 +28,10 @@ public class CommentController {
             @ApiResponse(responseCode = "200", description = "성공적으로 등록되었습니다.."),
             @ApiResponse(responseCode = "404", description = "댓글 등록에 실패하였습니다..")
     })
-    @GetMapping("/{challengeId}/comment/add")
-    public ResponseEntity<CommentRequestDto> addComment(@PathVariable Long challengeId, @RequestBody CommentRequestDto commentRequestDto, HttpSession httpSession) {
+    @PostMapping("/{challengeId}/comment/add")
+    public ResponseEntity<CommentRequestDto> addComment(HttpSession httpSession, Long challengeId, @RequestBody CommentRequestDto commentRequestDto) {
         Member member = (Member) httpSession.getAttribute("member");
-        CommentRequestDto responseDto = commentService.addComment(challengeId, member.getId(), commentRequestDto);
+        CommentRequestDto responseDto = commentService.addComment(member.getId(), challengeId, commentRequestDto);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

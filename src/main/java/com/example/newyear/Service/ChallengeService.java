@@ -3,13 +3,11 @@ package com.example.newyear.Service;
 import com.example.newyear.Dto.ChallengeDto;
 import com.example.newyear.Dto.Request.ChallengeRequestDto;
 import com.example.newyear.Entity.Challenge;
-import com.example.newyear.Entity.Member;
 import com.example.newyear.Repository.ChallengeRepository;
 import com.example.newyear.Repository.MemberRepository;
 import com.example.newyear.Repository.RankRepository;
 import com.example.newyear.Response.CommonResponse;
 import com.example.newyear.Response.ResponseService;
-import com.example.newyear.Response.SingleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,5 +58,4 @@ public class ChallengeService {
 
         return challengeDtoList;
     }
-
 }

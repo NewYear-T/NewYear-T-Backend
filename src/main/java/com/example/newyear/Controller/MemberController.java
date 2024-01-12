@@ -45,13 +45,6 @@ public class MemberController {
     }
 
 
-    @PostMapping("/sign-up")
-    public CommonResponse sign_up(@RequestBody SignUpRequestDto signUpRequestDto){
-            CommonResponse response = memberService.SignUp(signUpRequestDto);
-
-    }
-
-
 
 
 

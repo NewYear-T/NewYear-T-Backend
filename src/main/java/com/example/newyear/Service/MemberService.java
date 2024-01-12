@@ -61,15 +61,4 @@ public class MemberService {
         challengeRepository.save(challenge);
         return responseService.getSingleResponse(challenge);
     }
-
-
-    public CommonResponse SignUp(SignUpRequestDto signUpRequestDto) {
-
-        Member member = Member.builder()
-                .userName(signUpRequestDto.getUserName())
-                .loginId(signUpRequestDto.getLoginId())
-                .password(signUpRequestDto.getPassword())
-                .gender()
-
-    }
 }
