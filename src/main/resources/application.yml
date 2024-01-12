@@ -10,9 +10,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://newyeardb.cns6ycguedy2.ap-northeast-2.rds.amazonaws.com:3306/newyeardb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: admin
-    password: newyear1234
+    url: jdbc:mysql://${DB_ENDPOINT}:3306/${DB_NAME}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
