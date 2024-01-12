@@ -11,4 +11,5 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     @Query("select m from Member m where m.loginId = ?1")
     Member findByLoginId(String loginId);
 
+    Member findByUserName(String username);
 }

@@ -1,8 +1,10 @@
 package com.example.newyear.Controller;
 
+import com.example.newyear.Dto.ChallengeDto;
 import com.example.newyear.Dto.Request.ChallengeRequestDto;
 import com.example.newyear.Entity.Member;
 import com.example.newyear.Response.CommonResponse;
+import com.example.newyear.Response.ListResponse;
 import com.example.newyear.Response.ResponseService;
 import com.example.newyear.Service.ChallengeService;
 import com.example.newyear.Service.CompletedService;
@@ -42,7 +44,7 @@ public class ChallengeController {
             @ApiResponse(responseCode = "200", description = "챌린지 생성에 성공하였습니다."),
             @ApiResponse(responseCode = "404", description = "챌린지 생성에 실패하였습니다.")
     })
-    @PostMapping("/api/challenge")
+    @PostMapping("/challenge")
     public CommonResponse addChallenge(@RequestBody ChallengeRequestDto challengeRequestDto, HttpSession session){
 
         Member member = (Member) session.getAttribute("member");
@@ -60,7 +62,7 @@ public class ChallengeController {
             @ApiResponse(responseCode = "200", description = "점수 획득에 성공하였습니다."),
             @ApiResponse(responseCode = "404", description = "인증에 실패하였습니다.")
     })
-    @GetMapping("/api/challenge/complete/{challengeId}")
+    @GetMapping("/challenge/complete/{challengeId}")
     public CommonResponse completeChallenge(@PathVariable("challengeId") Long challengeId, HttpSession session){
         Member member = (Member) session.getAttribute("member");
 
@@ -79,5 +81,17 @@ public class ChallengeController {
         List<String> members = rankingService.descMember(challengeId);
 
         return new ResponseEntity<>(members, HttpStatus.OK);
+    }
+
+    @Operation(summary = "챌린지 상세 조회 API", description = "챌린지 상세 조회 API 입니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "챌린지 상세 조회에 성공하였습니다."),
+            @ApiResponse(responseCode = "404", description = "해당 챌린지가 존재하지 않습니다.")
+    })
+    @GetMapping("/{challengeId}")
+    public ResponseEntity<ChallengeDto> getChallenges(@PathVariable Long challengeId){
+        ChallengeDto challengeDto = challengeService.findById(challengeId);
+
+        return new ResponseEntity<>(challengeDto, HttpStatus.OK);
     }
 }
