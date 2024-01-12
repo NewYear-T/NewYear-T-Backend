@@ -18,18 +18,6 @@ public class UserChallenge {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    private String title;
-
-    private String description;
-
-    private LocalDateTime startTime;
-
-    private LocalDateTime endTime;
-
-    @OneToMany(mappedBy = "Challenge")
-    private List<Completed> completedList;
-
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
@@ -38,6 +26,5 @@ public class UserChallenge {
     @JoinColumn(name = "challenge_id")
     private Challenge challenge;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+
 }
