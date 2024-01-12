@@ -13,16 +13,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+/**
+ * 카테고리
+ */
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String categoryName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member; // 유저 정보
+
+    private String categoryName; // 카테고리 이름
 
     @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member member;
+    private LocalDateTime createdAt; // 생성 시간
 }

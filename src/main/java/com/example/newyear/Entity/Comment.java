@@ -12,25 +12,28 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+/**
+ * 댓글
+ */
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String content;
+    private String content; // 댓글 내용
 
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; // 등록 시간
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member member; // 유저 정보
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_challenge_id")
-    private UserChallenge userChallenge;
+    @JoinColumn(name = "challenge_id")
+    private Challenge challenge; // 챌린지 정보
 
 
 }
