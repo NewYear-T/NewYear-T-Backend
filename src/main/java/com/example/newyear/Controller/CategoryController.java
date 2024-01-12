@@ -48,13 +48,6 @@ public class CategoryController {
             @ApiResponse(responseCode = "404", description = "해당 챌린지가 존재하지 않습니다.")
     })
     @GetMapping("/category/{categoryId}")
-    public ListResponse getChallenges(@PathVariable Long categoryId){
-        List<ChallengeDto> challengeDtoList = challengeService.getChallengesByCategory(categoryId);
-
-        return responseService.getListResponse(challengeDtoList);
-    }
-
-    @GetMapping("/category/param/{categoryId}")
     public ListResponse getChallenge(@PathVariable("categoryId") Long categoryId,
             @RequestParam(required = false) String gender, @RequestParam(required = false) String local ){
         List<ChallengeDto> challengeDtoList = challengeService.getChallengesBy(categoryId, gender,local);
