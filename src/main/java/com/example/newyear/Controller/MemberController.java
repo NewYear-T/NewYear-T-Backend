@@ -1,6 +1,7 @@
 package com.example.newyear.Controller;
 
 import com.example.newyear.Dto.Request.LoginRequestDto;
+import com.example.newyear.Entity.Member;
 import com.example.newyear.Response.SingleResponse;
 import com.example.newyear.Service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,4 +39,18 @@ public class MemberController {
      * 세션에 유저가 유효한 지 아닌지
      */
 
+
+
+    @Operation(summary = "챌린지 참가 신청 API", description = "챌린지에 참가 신청하는 API 입니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공적으로 신청되었습니다."),
+            @ApiResponse(responseCode = "404", description = "올바른 요청이 아닙니다.")
+    })
+    @GetMapping("/{challengeId}/apply")
+    public SingleResponse challengeApply(@PathVariable Long challengeId, HttpSession httpSession) {
+        Member member = (Member) httpSession.getAttribute("member");
+        SingleResponse response = memberService.joinChallenge(member, challengeId);
+
+;        return response;
+    }
 }

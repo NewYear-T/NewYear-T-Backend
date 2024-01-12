@@ -46,6 +46,7 @@ public class Member {
             inverseJoinColumns = @JoinColumn(name = "challenge_id"))
     private List<Challenge> challenges; // 챌린지 리스트
 
-
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Comment> comments; // 댓글 리스트
 
 }
