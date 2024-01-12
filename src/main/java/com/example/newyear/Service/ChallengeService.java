@@ -10,6 +10,7 @@ import com.example.newyear.Repository.MemberRepository;
 import com.example.newyear.Repository.RankRepository;
 import com.example.newyear.Response.CommonResponse;
 import com.example.newyear.Response.ResponseService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,5 +65,12 @@ public class ChallengeService {
                 .stream().map(ChallengeDto::from).collect(Collectors.toList());
 
         return challengeDtoList;
+    }
+
+    public ChallengeDto findById(Long challengeId) {
+        ChallengeDto challengeDto = ChallengeDto.from(challengeRepository.findById(challengeId)
+                .orElseThrow(() -> new EntityNotFoundException("Challenge not found")));
+
+        return challengeDto;
     }
 }
