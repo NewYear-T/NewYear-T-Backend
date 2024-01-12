@@ -33,9 +33,12 @@ public class CommentService {
         Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(() ->
                 new IllegalArgumentException("해당 챌린지가 존재하지 않습니다.."));
 
-        Comment comment = reqToEntity(commentRequestDto);
-        comment.setMember(member);
-        comment.setChallenge(challenge);
+        Comment comment = Comment.builder()
+                .content(commentRequestDto.getContent())
+                .member(member)
+                .challenge(challenge)
+                .build();
+
         commentRepository.save(comment);
 
         return reqToDto(comment);
@@ -49,7 +52,6 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(()
                 -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 댓글을 찾을 수 없습니다."));
         comment.setContent(updateParam.getContent());
-        comment.setCreatedAt(updateParam.getCreatedAt());
         commentRepository.save(comment);
         return reqToDto(comment);
     }
@@ -64,35 +66,12 @@ public class CommentService {
         return reqToDto(comment);
     }
 
-
-    /**
-     * Dto -> Entity
-     */
-    private Comment reqToEntity(CommentRequestDto commentRequestDto) {
-        Long memberId = commentRequestDto.getMemberId();
-        Member member = memberRepository.findById(memberId).orElseThrow(()
-                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다."));
-
-        Long challengeId = commentRequestDto.getChallengeId();
-        Challenge challenge = challengeRepository.findById(challengeId).orElseThrow(()
-                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다."));
-
-        Comment comment = Comment.builder()
-                .content(commentRequestDto.getContent())
-                .createdAt(commentRequestDto.getCreatedAt())
-                .member(member)
-                .challenge(challenge)
-                .build();
-        return comment;
-    }
-
     /**
      * Entity -> Dto
      */
     private CommentRequestDto reqToDto(Comment comment) {
         CommentRequestDto commentRequestDto = CommentRequestDto.builder()
                 .content(comment.getContent())
-                .createdAt(comment.getCreatedAt())
                 .memberId(comment.getMember().getId())
                 .challengeId(comment.getChallenge().getId())
                 .build();

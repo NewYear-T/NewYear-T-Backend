@@ -29,12 +29,13 @@ public class CommentController {
             @ApiResponse(responseCode = "404", description = "댓글 등록에 실패하였습니다..")
     })
     @PostMapping("/{challengeId}/comment/add")
-    public ResponseEntity<CommentRequestDto> addComment(HttpSession httpSession, Long challengeId, @RequestBody CommentRequestDto commentRequestDto) {
+    public ResponseEntity<CommentRequestDto> addComment(HttpSession httpSession, @PathVariable Long challengeId, @RequestBody CommentRequestDto commentRequestDto) {
         Member member = (Member) httpSession.getAttribute("member");
         CommentRequestDto responseDto = commentService.addComment(member.getId(), challengeId, commentRequestDto);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
 
     @Operation(summary = "댓글 수정 API", description = "댓글을 수정하는 API 입니다.")
     @ApiResponses({
