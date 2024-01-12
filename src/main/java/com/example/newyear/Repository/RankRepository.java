@@ -28,8 +28,7 @@ public interface RankRepository extends JpaRepository<Ranking,Long> {
 
     // 단체 점수 증가 +2점
 
-    // 순위 리스트
-
-    @Query("select r.member from Ranking r where r.challenge.id = ?1 order by r.score desc")
-    List<Member> findMembersByChallengeId(Long challengeId);
+    // 순위 리스트 ( score를 기준으로 내림차순으로 정렬 )
+    @Query("select r.member.userName from Ranking r where r.challenge.id = ?1 order by r.score desc")
+    List<String> findMembersByChallengeId(Long challengeId);
 }

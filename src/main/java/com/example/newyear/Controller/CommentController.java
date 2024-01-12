@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -34,6 +36,18 @@ public class CommentController {
         CommentRequestDto responseDto = commentService.addComment(member.getId(), challengeId, commentRequestDto);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @Operation(summary = "댓글 전체 조회 API", description = "댓글을 전체 조회하는 API 입니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공적으로 전체 조회했습니다.."),
+            @ApiResponse(responseCode = "404", description = "전체 조회에 실패하였습니다..")
+    })
+    @GetMapping("/{challengeId}/comment/list")
+    public ResponseEntity<List<CommentRequestDto>> getAllComments(@PathVariable Long challengeId) {
+        List<CommentRequestDto> commentRequestDtoList = commentService.findAll(challengeId);
+
+        return new ResponseEntity<>(commentRequestDtoList, HttpStatus.OK);
     }
 
 
