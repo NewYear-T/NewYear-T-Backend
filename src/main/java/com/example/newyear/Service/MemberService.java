@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,8 +105,8 @@ public class MemberService {
 
     public CommonResponse SignUp(SignUpRequestDto signUpRequestDto) {
 
-        Member existed = memberRepository.findByUserName(signUpRequestDto.getUserName());
-        if (existed == null) {
+        Optional<Member> existed = memberRepository.findByUserName(signUpRequestDto.getUserName());
+        if (!existed.isPresent()) {
             Member member = Member.builder()
                     .userName(signUpRequestDto.getUserName())
                     .loginId(signUpRequestDto.getLoginId())

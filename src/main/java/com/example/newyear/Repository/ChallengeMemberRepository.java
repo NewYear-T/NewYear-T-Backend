@@ -18,4 +18,7 @@ public interface ChallengeMemberRepository  extends JpaRepository<ChallengeMembe
 
     @Query("select cm.challenge from ChallengeMembers  cm where cm.member.id = ?1")
     List<Challenge> findMyChallenge(Long memberId);
+
+    List<ChallengeMembers> findByMemberId(Long id);
+
 }

@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("*") // 실제 리액트 서버 URL로 변경해야 합니다.
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("Content-Type", "Authorization", "X-Requested-With", "Accept")
+                .allowedHeaders("content-header","Content-Type", "Authorization", "X-Requested-With", "Accept")
                 .allowCredentials(false);
     }
 }
